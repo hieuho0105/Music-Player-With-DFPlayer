@@ -3,11 +3,18 @@
 
 #include <stdint.h>
 
-#define Start_Byte 0x7E
-#define Version_Byte 0xFF
-#define Command_Length 0x06
-#define End_Byte 0xEF
-#define Acknowledge 0x00
+#define START_BYTE 0x7E
+#define VERSION_BYTE 0xFF
+#define COMMAND_LENGTH 0x06
+#define END_BYTE 0xEF
+#define ACKNOWLEDGE 0x00
+
+#define CMD_PLAY_NEXT 0x01
+#define CMD_PLAY_PREVIOUS 0x02
+#define CMD_PLAY_FIRST 0x03
+#define CMD_PLAY 0x0D
+#define CMD_PAUSE 0x0E
+#define CMD_SET_VOLUME 0x06
 
 
 
