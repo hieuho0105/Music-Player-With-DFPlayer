@@ -17,7 +17,7 @@
 
 #define _XTAL_FREQ 20000000 // 20MHz
 #define BAUDRATE 9600
-bool isPlaying;
+
 
 void main(void) {
     
@@ -25,29 +25,30 @@ void main(void) {
     UART_Init(BAUDRATE); // Initialize UART module with 9600 baudrate
     __delay_ms(1500);
     playFirst(); // Play the first song
+    bool isPlaying;
     isPlaying = true;
     
-    while(true){
+    while(true) {
    
-        if (BUTTON_PAUSE == IS_PUSH){
+        if (BUTTON_PAUSE == IS_PUSH) {
             while(BUTTON_PAUSE == IS_PUSH); // Wait until the button is released
-            if(isPlaying){
+            if(isPlaying) {
                 pause();
                 isPlaying = false;
             } else {
-                    isPlaying = true;
-                    play();
-                }
+                isPlaying = true;
+                play();
+            }
         }
 
-        if (BUTTON_NEXT == IS_PUSH){
+        if (BUTTON_NEXT == IS_PUSH) {
             while(BUTTON_NEXT == IS_PUSH); // Wait until the button is released
             if(isPlaying){
                 playNext();
             }
         }
         
-        if (BUTTON_PREVIOUS == IS_PUSH){
+        if (BUTTON_PREVIOUS == IS_PUSH) {
             while(BUTTON_PREVIOUS == IS_PUSH); // Wait until the button is released
             if(isPlaying){
                 playPrevious();
