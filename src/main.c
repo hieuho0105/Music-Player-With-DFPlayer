@@ -4,7 +4,7 @@
  *
  * Created on June 3, 2023, 7:11 PM
  */
-#include <xc.h>
+#include <pic16f877.h>
 #include <stdint.h>
 #include "config.h"
 #include "dfplayer.h"

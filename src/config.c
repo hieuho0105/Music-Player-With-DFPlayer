@@ -1,4 +1,4 @@
-#include <xc.h>
+#include <pic16f877.h>
 #include "config.h"
 // CONFIG
 #pragma config FOSC = HS        // Oscillator Selection bits (HS oscillator)

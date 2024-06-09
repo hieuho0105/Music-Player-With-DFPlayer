@@ -1,4 +1,4 @@
-#include <xc.h>
+#include <pic16f877.h>
 #include <stdint.h>
 #include "config.h"
 #include "uart.h"
