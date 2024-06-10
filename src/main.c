@@ -19,19 +19,11 @@
 #define BAUDRATE 9600
 
 
-void main(void) {
-    
-    TRISB = 0xFF; // Set PORTB as input
-    UART_Init(BAUDRATE); // Initialize UART module with 9600 baudrate
-    __delay_ms(1500);
-    playFirst(); // Play the first song
-    bool isPlaying;
-    isPlaying = true;
-    
-    while(true) {
-   
+void __interrupt() ISR(void) {
+    // Kiểm tra nguồn ngắt là từ INT0
+    if (INTCONbits.INTF) {
         if (BUTTON_PAUSE == IS_PUSH) {
-            while(BUTTON_PAUSE == IS_PUSH); // Wait until the button is released
+            while(BUTTON_PAUSE == IS_PUSH); // Chờ cho đến khi nút bấm được thả ra
             if(isPlaying) {
                 pause();
                 isPlaying = false;
@@ -39,20 +31,42 @@ void main(void) {
                 isPlaying = true;
                 play();
             }
-        }
-
-        if (BUTTON_NEXT == IS_PUSH) {
-            while(BUTTON_NEXT == IS_PUSH); // Wait until the button is released
+        } else if (BUTTON_NEXT == IS_PUSH) {
+            while(BUTTON_NEXT == IS_PUSH); // Chờ cho đến khi nút bấm được thả ra
             if(isPlaying){
                 playNext();
             }
-        }
-        
-        if (BUTTON_PREVIOUS == IS_PUSH) {
-            while(BUTTON_PREVIOUS == IS_PUSH); // Wait until the button is released
+        } else if (BUTTON_PREVIOUS == IS_PUSH) {
+            while(BUTTON_PREVIOUS == IS_PUSH); // Chờ cho đến khi nút bấm được thả ra
             if(isPlaying){
                 playPrevious();
             }
         }
+        // Xóa cờ ngắt INT0
+        INTCONbits.INTF = 0;
+    }
+}
+
+
+void main(void) {
+    
+    TRISB = 0xFF; // Set PORTB là input
+    UART_Init(BAUDRATE); // Khởi tạo UART với baudrate 9600
+    __delay_ms(1500);
+
+    // Cấu hình ngắt ioc cho các nút bấm (BUTTON_NEXT, BUTTON_PAUSE, BUTTON_PREVIOUS)
+    INTCONbits.RBIE = 1;   // Cho phép ngắt trên thay đổi
+    INTCONbits.RBIF = 0;   // Xóa cờ ngắt RBIF
+    IOCB = 0xFF;           // Bật ngắt trên thay đổi cho tất cả các chân RB
+    // Cấu hình ngắt chung
+    INTCONbits.GIE = 1;    // Cho phép ngắt chung
+    INTCONbits.PEIE = 1;   // Cho phép ngắt ngoại vi
+
+    playFirst(); // Phát nhạc đầu tiên
+    bool isPlaying;
+    isPlaying = true; // Biến kiểm tra trạng thái phát nhạc
+    
+    while(true) {
+        // do nothing
     } 
 }
